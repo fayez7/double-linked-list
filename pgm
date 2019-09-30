@@ -1,0 +1,185 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+  char ssn[2],name[20],dep[5],phno[12],desig[10];
+  int sal;
+  struct node*llink;
+  struct node*rlink;
+};
+typedef struct node*NODE;
+NODE temp,FIRST=NULL,END=NULL;
+NODE getnode()
+{
+  NODE x;
+  x=(NODE)malloc(sizeof(struct node));
+  return x;
+}
+void read()
+{
+  temp=getnode();
+  temp->llink=NULL;
+  temp->rlink=NULL;
+  printf("Enter the ssn:");
+  scanf("%s",temp->ssn);
+  printf("Enter name:");
+  scanf("%s",temp->name);
+  printf("Enter department:");
+  scanf("%s",temp->dep);
+  printf("Enter designation:");
+  scanf("%s",temp->desig);
+  printf("Enter phno:");
+    scanf("%s",temp->phno);
+  printf("Enter salery:");
+  scanf("%d",&temp->sal);
+  return;
+}
+void create_DLL()
+{
+  int n,i=1;
+  printf("Enter the number of employees:\n");
+  scanf("%d",&n);
+  while(i<=n)
+  {
+     printf("\nEnter the details of the %d employees\n",i++);
+     read();
+     if(FIRST==NULL)
+        {FIRST=temp;
+        END=temp;}
+     else
+     {
+        END->rlink=temp;
+        temp->llink=END;
+        END=temp;
+     }
+   }
+}
+void display_count()
+{
+   temp=FIRST;
+   int count=1;
+   printf("Employee details:\n");
+   if(FIRST==NULL)
+       printf("Employee list is empty and count is %d\n",count-1);
+   else
+   {
+       while(temp!=END)
+       {
+          count++;
+          printf("%s\t%s\t%s\t%s\t%s\t%d\n",temp->ssn,temp->name,temp->dep,temp->desig,temp->phno,temp->sal);
+          temp=temp->rlink;
+       }
+       printf("%s\t%s\t%s\t%s\t%s\t%d\n",temp->ssn,temp->name,temp->dep,temp->desig,temp->phno,temp->sal);
+       printf("\nEmployee count:%d\n",count);
+    }
+    return;
+}
+void insertionfront()
+{
+   printf("Enter the details of the employees\n");
+   read();
+   if(FIRST==NULL)
+      {FIRST=temp;
+      END=temp;}
+   else
+   {
+      temp->rlink=FIRST;
+      FIRST->llink=temp;
+      FIRST=temp;
+   }
+}
+void insertionend()
+{
+   NODE last=FIRST;
+   printf("Enter the details of the new employee\n");
+   read();
+   if(FIRST==NULL)
+   { FIRST=temp;
+      END=temp;
+   }
+   else
+   {
+     END->rlink=temp; 
+      temp->llink=END;
+       END=temp;
+   }
+}
+void deletionfront()
+{
+    temp=FIRST;
+    if(FIRST==NULL)
+        printf("List is empty\n");
+    else if(FIRST==END)
+    {
+        printf("Delted element is %s\n",temp->ssn);
+        FIRST=NULL;
+        END=NULL;
+        free(temp);
+     }
+     else
+     {
+      printf("Delted element is %s\n",temp->ssn);
+      FIRST=FIRST->rlink;
+      FIRST->llink=temp;
+      free(temp);
+      return;
+     }
+}
+void deletionend()
+{
+    temp=END;
+    if(FIRST==NULL)
+        printf("List is empty\n");
+    else if(FIRST==END)
+    {
+        printf("Delted element is %s\n",temp->ssn);
+        FIRST=NULL;
+        END=NULL;
+        free(temp);
+     }
+     else
+     {
+      printf("Delted element is %s\n",temp->ssn);
+      END=END->rlink;
+      END->rlink=NULL;
+      free(temp);
+      
+     }
+     return;
+}
+void main()
+{
+  int choice;
+  while(1)
+  {
+     printf("-------MENU-------\n");
+     printf("1.Create a DLL of N students\n");
+     printf("2.Display DLL\n");
+     printf("3.Insertion at front\n");
+     printf("4.Insertion at end\n");
+     printf("5.Deletion at front\n");
+     printf("6.Deletion at end\n");
+     printf("7.End\n");
+     printf("Enter your choice:");
+     scanf("%d",&choice);
+     switch(choice)
+     {
+        case 1:create_DLL();
+               break;
+        case 2:display_count();
+               break;
+        case 3:insertionfront();
+               break;
+        case 4:insertionend();
+               break;
+        case 5:deletionfront();
+               break;
+        case 6:deletionend();
+               break;
+        case 7:return;
+        default:printf("\nInvalid choice\n");
+      }
+   }
+}
+     
+     
